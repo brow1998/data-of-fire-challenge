@@ -1,0 +1,11 @@
+ntd_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost  # ou o IP do seu Postgres, se estiver em container
+      port: 6543
+      user: ntdUser
+      password: ntdPass
+      dbname: ntd
+      schema: dw

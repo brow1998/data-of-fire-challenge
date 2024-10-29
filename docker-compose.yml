@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: database
+    environment:
+      POSTGRES_USER: ntdUser
+      POSTGRES_PASSWORD: ntdPass
+      POSTGRES_DB: ntd
+    volumes:
+      - .deploy/postgres/data:/var/lib/postgresql/data
+    ports:
+      - "6543:5432"
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+    volumes:
+      - .deploy/metabase/data:/metabase-data
+volumes:
+  pgdata:
+    driver: local
+  metabase-data:
