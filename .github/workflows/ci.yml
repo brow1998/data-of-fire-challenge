@@ -35,3 +35,14 @@ jobs:
         run: uv run pytest -q
       - name: dbt project parses
         run: uv run dbt parse --project-dir dbt --profiles-dir dbt
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: The documented command, on recorded pages instead of the live API
+        run: docker compose run --rm pipeline fire run --replay tests/fixtures/pages
+      - name: The documented test command
+        run: docker compose run --rm tests
+      - if: failure()
+        run: docker compose logs
