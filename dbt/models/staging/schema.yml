@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: stg_fire__incidents
+    description: Latest version of each incident, typed. Grain is one row per incident `id`.
+    columns:
+      - name: incident_id
+        data_tests: [unique, not_null]
+      - name: incident_date
+        data_tests: [not_null]
+      - name: source_page_id
+        data_tests: [not_null]

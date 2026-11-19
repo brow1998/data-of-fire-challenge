@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: Calendar day dimension covering the full incident range.
+    columns:
+      - name: date_key
+        data_tests: [unique, not_null]
+
+  - name: dim_battalion
+    description: Fire battalions. `Unknown` holds incidents the source left without one.
+    columns:
+      - name: battalion_code
+        data_tests: [unique, not_null]
+
+  - name: dim_district
+    description: Neighborhood districts. `Unknown` holds incidents the source left without one.
+    columns:
+      - name: district_name
+        data_tests: [unique, not_null]
+
+  - name: fct_fire_incidents
+    description: >
+      One row per incident (`incident_id`, which is incident number + exposure number).
+      `source_page_id` and `source_row_number` point at the exact raw record behind each row.
+    columns:
+      - name: incident_id
+        data_tests: [unique, not_null]
+      - name: date_key
+        data_tests:
+          - not_null
+          - relationships: {to: ref('dim_date'), field: date_key}
+      - name: battalion_code
+        data_tests:
+          - not_null
+          - relationships: {to: ref('dim_battalion'), field: battalion_code}
+      - name: district_name
+        data_tests:
+          - not_null
+          - relationships: {to: ref('dim_district'), field: district_name}
+      - name: fatalities
+        data_tests: [non_negative]
+      - name: response_minutes
+        data_tests: [non_negative]

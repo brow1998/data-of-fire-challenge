@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: agg_incidents_daily
+    description: Incidents per day, district and battalion, for BI tools to slice by any period.
+  - name: rpt_incidents_by_month_district
+    description: Incidents, fatalities and injuries per month and neighborhood district.
+  - name: rpt_incidents_by_battalion_year
+    description: Incidents, casualties and median response time per year and battalion.

@@ -1,0 +1,12 @@
+fire:
+  target: local
+  outputs:
+    local:
+      type: postgres
+      host: "{{ env_var('PGHOST', 'localhost') }}"
+      port: "{{ env_var('PGPORT', '6543') | int }}"
+      user: "{{ env_var('PGUSER', 'fire') }}"
+      password: "{{ env_var('PGPASSWORD', 'fire') }}"
+      dbname: "{{ env_var('PGDATABASE', 'fire') }}"
+      schema: public
+      threads: 4

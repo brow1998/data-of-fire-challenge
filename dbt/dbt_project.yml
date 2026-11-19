@@ -1,0 +1,22 @@
+name: fire_incidents
+version: "1.0.0"
+profile: fire
+config-version: 2
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+target-path: target
+clean-targets: ["target"]
+
+models:
+  fire_incidents:
+    staging:
+      +schema: staging
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table
+    reports:
+      +schema: reports
+      +materialized: view

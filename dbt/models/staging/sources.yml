@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw
+    description: API pages landed untouched by `fire run`.
+    tables:
+      - name: pages
+        description: One row per stored page, with its content hash and the exact API request.
+      - name: incidents
+        description: One row per record version, keyed by (id, data_as_of), pointing at its page.

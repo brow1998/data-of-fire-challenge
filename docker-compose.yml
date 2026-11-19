@@ -1,0 +1,50 @@
+name: fire
+
+x-pg: &pg
+  PGHOST: db
+  PGPORT: "5432"
+  PGUSER: fire
+  PGPASSWORD: fire
+  PGDATABASE: fire
+
+services:
+  db:
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_USER: fire
+      POSTGRES_PASSWORD: fire
+      POSTGRES_DB: fire
+    ports: ["6543:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fire -d fire"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  # docker compose run --rm pipeline
+  pipeline:
+    build: .
+    environment: *pg
+    depends_on:
+      db: {condition: service_healthy}
+
+  # docker compose run --rm tests   (the suite refuses any connection that isn't the database)
+  tests:
+    build: .
+    command: ["pytest", "-q"]
+    environment: *pg
+    depends_on:
+      db: {condition: service_healthy}
+    profiles: [test]
+
+  # docker compose --profile bi up -d metabase   then open http://localhost:3000
+  metabase:
+    image: metabase/metabase:v0.58.40
+    ports: ["3000:3000"]
+    depends_on:
+      db: {condition: service_healthy}
+    profiles: [bi]
+
+volumes:
+  pgdata:
